@@ -7,7 +7,7 @@ void print_line(char symbol, int len);
 int main() {
 	setlocale(LC_ALL, "Rus");
 	int a, b, h, max, max_size, kol, cont = 1;
-
+	 
 	do {
 		do {
 			int ch;
@@ -23,7 +23,6 @@ int main() {
 				printf("Шаг не может быть равен 0!\n");
 				do {
 					int ch;
-					
 					printf("Введите шаг заново: ");
 					kol = scanf("%d", &h);
 					while (ch = getchar() != '\n');
@@ -49,9 +48,10 @@ int main() {
 			}
 		}
 		max = a > b ? a : b;
-		printf("\n");
 		max_size = number_len(max * max);
 		max_size = max_size > 2 ? max_size : 3;
+
+		printf("\n");
 		print_line('-', max_size * 2 + 3);
 		printf("\n");
 		printf("|%*c|%*c|\n", max_size, 'x', max_size, 'y');
