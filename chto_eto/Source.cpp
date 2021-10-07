@@ -1,22 +1,32 @@
 ﻿#include <stdio.h>
-//#include <locale.h>
+#include <locale.h>
 
 #define ROUND_COUNT 2
-#define HOR_SYMBOL '─'
-#define VER_SYMBOL '│'
+
+#define VER				2995 // │
+#define HOR				2500 //  ─
+#define TOP_LEFT		2522 // ┌
+#define TOP_CENTER		2754 //  ┬
+#define TOP_RIGHT		3263 // ┐
+#define BOTTOM_LEFT		3264 //  └
+#define BOTTOM_CENTER	2753 // ┴
+#define BOTTOM_RIGHT	2521 //  ┘
+#define LEFT_SIDE		3267 // ├
+#define CENTER			2501 //  ┼
+#define RIGHT_SIDE		2484 // ┤
 
 int number_len(int number);
 void print_line(char symbol, int len);
 
 int main() {
-	//setlocale(LC_ALL, "Rus");
 	float a, b, h, max;
 	int max_size, kol, cont = 1;
 	
 	do {
+		setlocale(LC_ALL, "Rus");
 		do {
 			int ch;
-			printf("Введите границы и шаг(a b h): ");
+			printf("Введите границы и шаг (a b h): ");
 			kol = scanf("%f%f%f", &a, &b, &h);
 			while (ch = getchar() != '\n');
 		} while (kol < 3);
@@ -36,29 +46,83 @@ int main() {
 
 		max_size = number_len(max * max);
 		max_size = max_size > 2 ? max_size : 3;
+		max_size++;
 
+		setlocale(LC_ALL, "C");
+
+		// Верхняя линия шапки
 		printf("\n");
-		print_line(HOR_SYMBOL, max_size * 2 + 3);
+		printf("%c", TOP_LEFT);
+		print_line(HOR, max_size);
+		printf("%c", TOP_CENTER);
+		print_line(HOR, max_size);
+		printf("%c", TOP_RIGHT);
 		printf("\n");
-		printf("|%*c|%*c|\n", max_size, 'x', max_size, 'y');
-		print_line(HOR_SYMBOL, max_size * 2 + 3);
+
+		// Центр шапки
+		printf("%c", 2483);
+		printf("%*c%c%*c", max_size, 'x', 2483, max_size, 'y');
+		printf("%c\n", 2483);
+
+		// Нижняя линия шапки
+		printf("%c", LEFT_SIDE);
+		print_line(HOR, max_size);
+		printf("%c", CENTER);
+		print_line(HOR, max_size);
+		printf("%c", RIGHT_SIDE);
 		printf("\n");
 		
 		if (max == b){
 			for (a; a <= b; a += h) {
-				printf("|%*.*f|%*.*f|\n", max_size, ROUND_COUNT, a, max_size, ROUND_COUNT, a * a);
-				print_line(HOR_SYMBOL, max_size * 2 + 3);
+					printf("%c", 2483);
+					printf("%*.*f%c%*.*f", max_size, ROUND_COUNT, a, VER, max_size, ROUND_COUNT, a * a);
+					printf("%c\n", 2483);
+
+				// Линия под числами
+				if (a != b && a + h <= b) {
+					printf("%c", LEFT_SIDE);
+					print_line(HOR, max_size);
+					printf("%c", CENTER);
+					print_line(HOR, max_size);
+					printf("%c", RIGHT_SIDE);
+				}
+				else {
+					printf("%c", BOTTOM_LEFT);
+					print_line(HOR, max_size);
+					printf("%c", BOTTOM_CENTER);
+					print_line(HOR, max_size);
+					printf("%c", BOTTOM_RIGHT);
+				}
 				printf("\n");
 			}
 		}
 		else {
 			for (a; a >= b; a -= h) {
-				printf("|%*.*f|%*.*f|\n", max_size, ROUND_COUNT, a, max_size, ROUND_COUNT, a * a);
-				print_line(HOR_SYMBOL, max_size * 2 + 3);
+				printf("%c", 2483);
+				printf("%*.*f%c%*.*f", max_size, ROUND_COUNT, a, VER, max_size, ROUND_COUNT, a * a);
+				printf("%c\n", 2483);
+
+				// Линия под числами
+				if (a != b && a - h >= b) {
+					printf("%c", LEFT_SIDE);
+					print_line(HOR, max_size);
+					printf("%c", CENTER);
+					print_line(HOR, max_size);
+					printf("%c", RIGHT_SIDE);
+				}
+				else {
+					printf("%c", BOTTOM_LEFT);
+					print_line(HOR, max_size);
+					printf("%c", BOTTOM_CENTER);
+					print_line(HOR, max_size);
+					printf("%c", BOTTOM_RIGHT);
+				}
 				printf("\n");
 			}
 		}
 
+		setlocale(LC_ALL, "Rus");
+		cont = 0;
 		printf("\nВведите 1, чтобы продолжить: ");
 		scanf("%d", &cont);
 		printf("\n");
